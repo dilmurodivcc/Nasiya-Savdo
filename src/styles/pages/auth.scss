@@ -9,6 +9,14 @@
   animation-name: opacity;
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
+  .forgot-password{
+    color: #2c73f8;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: underline;
+    cursor: pointer;
+    text-align: end;
+  }
   .logo {
     width: 80px;
     margin-bottom: 20px;
