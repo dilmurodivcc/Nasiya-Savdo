@@ -5,9 +5,16 @@ import user from "../assets/icons/username.svg";
 import password from "../assets/icons/password.svg";
 import eyeOpen from "../assets/icons/eye-open.svg";
 import eyeClose from "../assets/icons/eye-close.svg";
+
 const Auth = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -15,6 +22,39 @@ const Auth = () => {
       navigate("/", { replace: true });
     }
   }, [navigate]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    // Input o'zgartirilganda xatolikni yo'qotish
+    setIsError(false);
+    setError("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setIsError(false);
+
+    try {
+      if (
+        formData.username === "dilmurodvcc" &&
+        formData.password === "dilmurodvcc"
+      ) {
+        localStorage.setItem("token", "fake-jwt-token");
+        await navigate("/", { replace: true });
+      } else {
+        setError("Login yoki parol noto'g'ri!");
+        setIsError(true);
+      }
+    } catch (err) {
+      setError("Xatolik yuz berdi. Iltimos qayta urinib ko'ring.");
+      setIsError(true);
+    }
+  };
 
   return (
     <div className="auth">
@@ -27,16 +67,27 @@ const Auth = () => {
           <p>
             Iltimos, tizimga kirish uchun login va parolingizni <br /> kiriting.
           </p>
-          <form>
-            <div className="input-container">
+          <form onSubmit={handleSubmit}>
+            <div className={`input-container ${isError ? "error" : ""}`}>
               <img src={user} alt="user" className="user-icon" />
-              <input type="text" placeholder="Login" />
+              <input
+                type="text"
+                placeholder="Login"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
             </div>
-            <div className="input-container">
+            <div className={`input-container ${isError ? "error" : ""}`}>
               <img src={password} alt="password" className="password-icon" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Parol"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
               />
               <img
                 className="eye-icon"
@@ -45,7 +96,12 @@ const Auth = () => {
                 onClick={() => setShowPassword(!showPassword)}
               />
             </div>
-            <a className="forgot-password" href="">Parolni unutdingizmi?</a>
+            <div className="error-container">
+              {error && <p className="error-message">{error}</p>}
+            <a className="forgot-password" href="#">
+              Parolni unutdingizmi?
+            </a>
+            </div>
             <button type="submit">Kirish</button>
           </form>
         </div>
