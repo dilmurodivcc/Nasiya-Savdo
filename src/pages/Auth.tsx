@@ -10,8 +10,8 @@ const Auth = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    username: "dilmurodvcc",
+    password: "dilmurodvcc",
   });
   const [error, setError] = useState("");
   const [isError, setIsError] = useState(false);
