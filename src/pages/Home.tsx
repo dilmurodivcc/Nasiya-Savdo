@@ -64,8 +64,19 @@ const Home = () => {
               </div>
               <div className="history-list">
                 <div className="history-item">
-                  <p>177 000 so'm</p>
+                  <h3>177 000 so'm</h3>
+                  <h4>Nov 1, 2024 14:45</h4>
                 </div>
+                <div className="history-item">
+                  <h3>343 000 so'm</h3>
+                  <h4>Dec 1, 2024 14:23</h4>
+                </div>
+                <div className="history-item">
+                  <h3>546 867 so'm</h3>
+                  <h4>Jun 1, 2024 14:23</h4>
+                </div>
+          
+              
               </div>
             </div>
           </div>
