@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import avatar from "../../assets/images/avatar.svg";
 import { useNavigate } from "react-router-dom";
