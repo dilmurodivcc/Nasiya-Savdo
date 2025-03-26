@@ -1,0 +1,272 @@
+.calendar-page {
+  padding: 15px;
+  max-width: 1250px;
+  margin: 0 auto;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+
+    .back-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      color: #000;
+      padding: 6px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  .calendar-container {
+    display: grid;
+    grid-template-columns: 520px 1fr;
+    gap: 15px;
+    padding: 15px;
+    height: calc(100vh - 65px);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 15px;
+
+    .payments-section {
+      background: #fff;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      height: 100%;
+      overflow-y: auto;
+
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #000;
+      }
+
+      .payment-item {
+        background-color: #f5f5f5;
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 8px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        h4 {
+          font-size: 14px;
+          font-weight: 500;
+          margin: 0 0 4px 0;
+          color: #000;
+        }
+
+        p {
+          font-size: 14px;
+          color: #666;
+          margin: 0;
+        }
+      }
+    }
+
+    .calendar-main {
+      background: #fff;
+      padding: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: auto;
+      border-radius: 15px;
+
+      .month-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        flex-shrink: 0;
+
+        .month-year {
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        .navigation-buttons {
+          display: flex;
+          gap: 8px;
+
+          button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background-color: #e5e5e5;
+            }
+          }
+        }
+      }
+
+      .total-amount {
+        margin-bottom: 15px;
+        flex-shrink: 0;
+
+        span {
+          font-size: 14px;
+          color: #666;
+        }
+
+        h2 {
+          font-size: 20px;
+          font-weight: 600;
+          margin: 4px 0;
+          color: #000;
+        }
+      }
+
+      .calendar-grid {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+
+        .weekdays {
+          display: grid;
+          grid-template-columns: repeat(7, 1fr);
+          gap: 6px;
+          margin-bottom: 6px;
+          flex-shrink: 0;
+
+          .weekday {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            padding: 6px 4px;
+          }
+        }
+
+        .days {
+          display: grid;
+          grid-template-columns: repeat(7, 1fr);
+          gap: 6px;
+          flex: 1;
+
+          .day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            position: relative;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 6px 4px;
+
+            &:hover {
+              background-color: #e5e5e5;
+            }
+
+            &.empty {
+              background-color: transparent;
+              cursor: default;
+            }
+
+            &.today {
+              background-color: #6194f3;
+              color: white;
+              font-weight: 600;
+              border: 2px solid #ff9500;
+
+              &:hover {
+                background-color: #3972e6;
+              }
+            }
+
+            &.selected {
+              background-color: #4885f8;
+              color: white;
+
+              &:hover {
+                background-color: #3972e6;
+              }
+
+              &::before {
+                content: "";
+                position: absolute;
+                top: 2px;
+                right: 2px;
+                width: 6px;
+                height: 6px;
+                background-color: #fff;
+                border-radius: 50%;
+              }
+            }
+
+            .dot {
+              position: absolute;
+              bottom: 4px;
+              width: 4px;
+              height: 4px;
+              background-color: #fff;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Media query for smaller screens
+@media (max-width: 1200px) {
+  .calendar-page {
+    height: 100vh;
+    padding: 12px;
+
+    .calendar-container {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      height: calc(100vh - 60px);
+
+      .payments-section {
+        order: 2;
+        max-height: 200px;
+      }
+
+      .calendar-main {
+        order: 1;
+        flex: 1;
+      }
+    }
+  }
+}

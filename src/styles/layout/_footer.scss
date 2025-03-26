@@ -1,0 +1,37 @@
+footer.footer-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fafafa;
+  padding: 20px 0;
+  border-top: 1px solid #e0e0e0;
+  .navlink {
+    color: #000;
+    transition: all 0.3s ease;
+    &.active {
+      color: #4885F8;
+    }
+    &:hover {
+      color: #4885F8;
+    }
+  }
+  ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .navlink {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 5px;
+      span {
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+  }
+}
