@@ -5,13 +5,15 @@ import user from "../assets/icons/username.svg";
 import password from "../assets/icons/password.svg";
 import eyeOpen from "../assets/icons/eye-open.svg";
 import eyeClose from "../assets/icons/eye-close.svg";
+import useAuth from "../hooks/useAuth";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { loginMutation } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: "dilmurodvcc",
-    password: "dilmurodvcc",
+    username: "",
+    password: "",
   });
   const [error, setError] = useState("");
   const [isError, setIsError] = useState(false);
@@ -29,7 +31,6 @@ const Auth = () => {
       ...prev,
       [name]: value,
     }));
-    // Input o'zgartirilganda xatolikni yo'qotish
     setIsError(false);
     setError("");
   };
@@ -40,18 +41,15 @@ const Auth = () => {
     setIsError(false);
 
     try {
-      if (
-        formData.username === "dilmurodvcc" &&
-        formData.password === "dilmurodvcc"
-      ) {
-        localStorage.setItem("token", "fake-jwt-token");
-        await navigate("/", { replace: true });
-      } else {
-        setError("Login yoki parol noto'g'ri!");
-        setIsError(true);
-      }
-    } catch (err) {
-      setError("Xatolik yuz berdi. Iltimos qayta urinib ko'ring.");
+      await loginMutation.mutateAsync({
+        login: formData.username,
+        hashed_password: formData.password,
+      });
+    } catch (err: any) {
+      setError(
+        err?.response?.data?.message ||
+          "Xatolik yuz berdi. Iltimos qayta urinib ko'ring."
+      );
       setIsError(true);
     }
   };
@@ -98,9 +96,9 @@ const Auth = () => {
             </div>
             <div className="error-container">
               {error && <p className="error-message">{error}</p>}
-            <a className="forgot-password" href="#">
-              Parolni unutdingizmi?
-            </a>
+              <a className="forgot-password" href="#">
+                Parolni unutdingizmi?
+              </a>
             </div>
             <button type="submit">Kirish</button>
           </form>

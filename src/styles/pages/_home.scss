@@ -92,6 +92,23 @@
       }
     }
   }
+
+  .loading-container,
+  .error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 300px);
+    width: 100%;
+  }
+
+  .error-container {
+    h2 {
+      color: #ff3b30;
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
 }
 
 .home {
@@ -119,7 +136,7 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 25px 20px ;
+          padding: 25px 20px;
           border-radius: 20px;
           box-shadow: 0 0 10px 0 rgba(179, 179, 179, 0.1);
           background-color: #f5f5f5;
@@ -140,7 +157,7 @@
           font-size: 20px;
           font-weight: 600;
           color: #000;
-          opacity: 0.8  ;
+          opacity: 0.8;
         }
         .status {
           font-size: 20px;
@@ -178,7 +195,7 @@
         }
       }
       .plus {
-        background-color: #3478F7;
+        background-color: #3478f7;
         border-radius: 50%;
         width: 55px;
         height: 55px;
