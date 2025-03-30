@@ -24,7 +24,7 @@ API.interceptors.response.use(
             localStorage.removeItem("token");
             message.error("Session expired. Please login again.");
             setTimeout(() => {
-                window.location.replace("/login"); 
+                window.location.replace("/auth"); 
             }, 500);
         }
         return Promise.reject(err);
