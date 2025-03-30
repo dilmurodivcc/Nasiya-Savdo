@@ -1,0 +1,42 @@
+.loading-container {
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message {
+  text-align: center;
+  color: #ff4d4f;
+  padding: 20px;
+  font-size: 16px;
+}
+
+.empty-container {
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #8c8c8c;
+}
+
+.empty-container svg {
+  width: 64px;
+  height: 64px;
+  color: #d9d9d9;
+}
+
+.empty-container p {
+  font-size: 16px;
+  margin: 0;
+}

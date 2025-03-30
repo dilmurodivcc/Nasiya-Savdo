@@ -1,12 +1,15 @@
 import { create } from "zustand";
 
 type ThemeMode = "light" | "dark" | "system";
-type Language = "uz" | "en" | "ru"; 
+type Language = "uz" | "en" | "ru";
 
 interface User {
   id: number;
   username: string;
   name: string;
+  data: {
+    wallet: string;
+  };
 }
 
 interface Group {

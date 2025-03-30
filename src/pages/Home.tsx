@@ -10,7 +10,7 @@ import { useStore } from "../hooks/useStore";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data, isLoading, error } = useHomeData();
+  const { data, isLoading } = useHomeData();
   const { user } = useStore();
 
   console.log("Home Data:", data); // For debugging
