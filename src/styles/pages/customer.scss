@@ -1,0 +1,119 @@
+.customer-page {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  header.customer-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 26px;
+    .input-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 50%;
+      border: 1px solid #ececec;
+      border-radius: 16px;
+      padding: 12px 16px;
+      height: 56px;
+      background-color: #f6f6f6;
+
+      input {
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        background-color: transparent;
+        padding: 10px 5px;
+        font-size: 16px;
+        font-weight: 400;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 137%;
+        color: rgba(26, 26, 26, 0.6);
+        &::placeholder {
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 137%;
+          color: rgba(26, 26, 26, 0.6);
+        }
+        outline: none;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      svg {
+        width: 30px;
+        height: auto;
+      }
+    }
+  }
+  .customer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 60vh;
+    overflow-y: auto;
+    .customer-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 30px 24px;
+      border: 1px solid #ececec;
+      border-radius: 18px;
+      transition: all 0.3s ease;
+      background-color: #f6f6f6;
+      .star {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        svg {
+          width: 34px;
+          height: 34px;
+        }
+      }
+      .name {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 150%;
+        color: #000;
+        margin-bottom: 5px;
+      }
+      .phone {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 171%;
+        color: var(--black);
+        opacity: 0.6;
+        margin-bottom: 5px;
+      }
+      small {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 150%;
+        color: #000;
+        opacity: 0.6;
+        margin-right: 20px;
+      }
+      b {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 150%;
+        color: #f94d4d;
+      }
+    }
+    .customer-item:hover {
+      background-color: #f2f2f2;
+      border: 1px solid #5c5c5c9b;
+    }
+  }
+}
