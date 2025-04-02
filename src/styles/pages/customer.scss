@@ -5,10 +5,20 @@
   }
   header.customer-header {
     display: flex;
-    width: 100%;
+    width: 70%;
     justify-content: space-between;
     align-items: center;
+    margin: 0 auto;
     margin-bottom: 26px;
+    .ant-btn {
+      height: 54px;
+      width: 54px;
+      border-radius: 100%;
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
     .input-box {
       display: flex;
       align-items: center;
@@ -29,6 +39,7 @@
         font-size: 16px;
         font-weight: 400;
         font-weight: 500;
+        padding-left: 35px;
         font-size: 16px;
         line-height: 137%;
         color: rgba(26, 26, 26, 0.6);

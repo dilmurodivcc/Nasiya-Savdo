@@ -117,7 +117,7 @@ const Customers = () => {
               icon={<PlusOutlined />}
               onClick={() => setIsModalOpen(true)}
             >
-              Yangi mijoz
+              
             </Button>
           </header>
           <div className="customer-list">
