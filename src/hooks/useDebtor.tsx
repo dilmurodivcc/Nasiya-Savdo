@@ -33,7 +33,7 @@ const useDebtor = () => {
   useEffect(() => {
     const fetchDebtors = async () => {
       try {
-        const response = await API.get("/debtor?spik=0&take=10");
+        const response = await API.get("  ");
 
         console.log("API Response:", response.data);
 

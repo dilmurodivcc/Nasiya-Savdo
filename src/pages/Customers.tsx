@@ -2,15 +2,19 @@ import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
 import { useState } from "react";
 import useCustomers from "../hooks/useCustomers";
-import { Spin, message } from "antd";
+import { Spin, message, Button } from "antd";
 import API from "../API";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import "./Customers.css";
+import { Customer } from "../hooks/useCustomers";
+import AddDebtorModal from "../components/AddDebtorModal";
+import { PlusOutlined } from "@ant-design/icons";
 
 const Customers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading, error } = useCustomers(searchTerm);
   const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Star mutation
   const toggleStarMutation = useMutation({
@@ -108,23 +112,13 @@ const Customers = () => {
                 onChange={handleSearch}
               />
             </div>
-            <button className="filter-btn">
-              <svg
-                width="20"
-                height="18"
-                viewBox="0 0 20 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 15H19M1 15H4M4 15V17M4 15V13M18 9H19M1 9H14M14 9V11M14 9V7M12 3H19M1 3H8M8 3V5M8 3V1"
-                  stroke="#1A1A1A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => setIsModalOpen(true)}
+            >
+              Yangi mijoz
+            </Button>
           </header>
           <div className="customer-list">
             {isLoading ? (
@@ -136,7 +130,7 @@ const Customers = () => {
             ) : !data?.data?.length ? (
               <EmptyState />
             ) : (
-              data.data.map((customer) => (
+              data.data.map((customer: Customer) => (
                 <div key={customer.id} className="customer-item">
                   <div className="left">
                     <h5 className="name">{customer.full_name}</h5>
@@ -196,6 +190,10 @@ const Customers = () => {
           </div>
         </div>
       </div>
+      <AddDebtorModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       <Footer />
     </>
   );
