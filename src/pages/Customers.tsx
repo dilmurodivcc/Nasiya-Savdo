@@ -2,36 +2,33 @@ import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
 import { useState } from "react";
 import useCustomers from "../hooks/useCustomers";
-import { Spin, message, Button } from "antd";
-import API from "../API";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import "./Customers.css";
-import { Customer } from "../hooks/useCustomers";
-import AddDebtorModal from "../components/AddDebtorModal";
+import { Spin, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { Customer } from "../hooks/useCustomers";
 
 const Customers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading, error } = useCustomers(searchTerm);
-  const queryClient = useQueryClient();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Star mutation
-  const toggleStarMutation = useMutation({
-    mutationFn: async (customerId: string) => {
-      const response = await API.post(`/customers/${customerId}/toggle-star`);
-      return response.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["customers"] });
-    },
-    onError: () => {
-      message.error("Yulduzchani o'zgartirishda xatolik yuz berdi");
-    },
-  });
+  const [starredCustomers, setStarredCustomers] = useState<Set<string>>(
+    new Set()
+  );
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  };
+
+  const toggleStar = (customerId: string) => {
+    setStarredCustomers((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(customerId)) {
+        newSet.delete(customerId);
+      } else {
+        newSet.add(customerId);
+      }
+      return newSet;
+    });
   };
 
   if (error) {
@@ -85,6 +82,17 @@ const Customers = () => {
     </div>
   );
 
+  // Sort customers: starred first, then others
+  const sortedCustomers = data?.data
+    ? [...data.data].sort((a, b) => {
+        const aStarred = starredCustomers.has(a.id);
+        const bStarred = starredCustomers.has(b.id);
+        if (aStarred && !bStarred) return -1;
+        if (!aStarred && bStarred) return 1;
+        return 0;
+      })
+    : [];
+
   return (
     <>
       <div className="customer-page">
@@ -115,10 +123,8 @@ const Customers = () => {
             <Button
               type="primary"
               icon={<PlusOutlined />}
-              onClick={() => setIsModalOpen(true)}
-            >
-              
-            </Button>
+              onClick={() => navigate("/customers/add")}
+            ></Button>
           </header>
           <div className="customer-list">
             {isLoading ? (
@@ -127,16 +133,20 @@ const Customers = () => {
                   <Spin size="large" />
                 </div>
               </div>
-            ) : !data?.data?.length ? (
+            ) : !sortedCustomers.length ? (
               <EmptyState />
             ) : (
-              data.data.map((customer: Customer) => (
-                <div key={customer.id} className="customer-item">
+              sortedCustomers.map((customer: Customer) => (
+                <div
+                  key={customer.id}
+                  className="customer-item"
+                  onClick={() => navigate(`/customers/${customer.id}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <div className="left">
                     <h5 className="name">{customer.full_name}</h5>
-                    <h6 className="phone">
-                      {customer.phone_numbers[0]?.number ||
-                        "Telefon raqam yo'q"}
+                    <h6 className="description">
+                      {customer.description || "Izoh yo'q"}
                     </h6>
                     <div className="nasiya">
                       <small>Jami Nasiya:</small>
@@ -148,10 +158,12 @@ const Customers = () => {
                   </div>
                   <button
                     className="star"
-                    onClick={() => toggleStarMutation.mutate(customer.id)}
-                    disabled={toggleStarMutation.isPending}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleStar(customer.id);
+                    }}
                   >
-                    {customer.is_starred ? (
+                    {starredCustomers.has(customer.id) ? (
                       <svg
                         width="24"
                         height="24"
@@ -177,7 +189,7 @@ const Customers = () => {
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
-                          d="M11.0555 3.54294C11.1518 3.37774 11.2897 3.24067 11.4555 3.1454C11.6213 3.05013 11.8091 3 12.0003 3C12.1915 3 12.3794 3.05013 12.5452 3.1454C12.711 3.24067 12.8489 3.37774 12.9451 3.54294L15.3902 7.74028L20.1387 8.76906C20.3255 8.80965 20.4984 8.89848 20.6401 9.02672C20.7818 9.15495 20.8875 9.3181 20.9465 9.49989C21.0056 9.68169 21.0159 9.87579 20.9766 10.0628C20.9372 10.2499 20.8495 10.4233 20.7222 10.5659L17.4854 14.1885L17.9753 19.0218C17.9946 19.2122 17.9637 19.4042 17.8856 19.5788C17.8074 19.7535 17.6849 19.9045 17.5301 20.017C17.3754 20.1294 17.1938 20.1993 17.0036 20.2196C16.8134 20.24 16.6211 20.21 16.4461 20.1328L12.0003 18.1733L7.55454 20.1328C7.37951 20.21 7.18729 20.24 6.99707 20.2196C6.80685 20.1993 6.6253 20.1294 6.47054 20.017C6.31577 19.9045 6.19321 19.7535 6.1151 19.5788C6.03698 19.4042 6.00604 19.2122 6.02537 19.0218L6.51526 14.1885L3.27847 10.5668C3.15094 10.4242 3.06305 10.2507 3.02356 10.0635C2.98407 9.87637 2.99436 9.68212 3.05341 9.50018C3.11247 9.31825 3.21821 9.15498 3.36009 9.02669C3.50197 8.89839 3.67502 8.80956 3.86196 8.76906L8.61044 7.74028L11.0555 3.54294ZM12.0003 5.39666L9.97689 8.87141C9.90038 9.00256 9.79739 9.11635 9.67449 9.20551C9.55159 9.29467 9.41147 9.35726 9.26305 9.3893L5.3334 10.2405L8.01207 13.2385C8.21677 13.4677 8.31563 13.7721 8.28501 14.0774L7.87997 18.0779L11.5594 16.456C11.6984 16.3948 11.8485 16.3632 12.0003 16.3632C12.1521 16.3632 12.3023 16.3948 12.4412 16.456L16.1207 18.0779L15.7156 14.0774C15.7003 13.9263 15.7165 13.7737 15.7634 13.6293C15.8102 13.4849 15.8866 13.3517 15.9877 13.2385L18.6673 10.2405L14.7376 9.3893C14.5892 9.35726 14.4491 9.29467 14.3262 9.20551C14.2033 9.11635 14.1003 9.00256 14.0238 8.87141L12.0003 5.39666Z"
+                          d="M11.0555 3.54294C11.1518 3.37774 11.2897 3.24067 11.4555 3.1454C11.6213 3.05013 11.8091 3 12.0003 3C12.1915 3 12.3794 3.05013 12.5452 3.1454C12.711 3.24067 12.8489 3.37774 12.9451 3.54294L15.3902 7.74028L20.1387 8.76906C20.3255 8.80965 20.4984 8.89848 20.6401 9.02672C20.7818 9.15495 20.8875 9.3181 20.9465 9.49989C21.0056 9.68169 21.0159 9.87579 20.9766 10.0628C20.9372 10.2499 20.8495 10.4233 20.7222 10.5659L17.4854 14.1885L17.9753 19.0218C17.9946 19.2122 17.9637 19.4042 17.8856 19.5788C17.8074 19.7535 17.6849 19.9045 17.5301 20.017C17.3754 20.1294 17.1938 20.1993 17.0036 20.2196C16.8134 20.24 16.6211 20.21 16.4461 20.1328L12.0003 18.1733L7.55454 20.1328C7.37951 20.21 7.18729 20.24 6.99707 20.2196C6.80685 20.1993 6.6253 20.1294 6.47054 20.017C6.31577 19.9045 6.19321 19.7535 6.1151 19.5788C6.03698 19.4042 6.00604 19.2122 6.02537 19.0218L6.51526 14.1885L3.27847 10.5668C3.15094 10.4242 3.06305 10.2507 3.02356 10.0635C2.98407 9.87637 2.99436 9.68212 3.05341 9.50018C3.11247 9.31825 3.21821 9.15498 3.36009 9.02669C3.50197 8.89839 3.67502 8.80956 3.86196 8.76906L8.61044 7.74028L11.0555 3.54294Z"
                           fill="black"
                           fillOpacity="0.4"
                         />
@@ -190,10 +202,6 @@ const Customers = () => {
           </div>
         </div>
       </div>
-      <AddDebtorModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
       <Footer />
     </>
   );

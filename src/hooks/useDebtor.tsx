@@ -15,13 +15,11 @@ interface Debt {
 interface Debtor {
   id: string;
   full_name: string;
-  phone_numbers: PhoneNumber[];
   address: string;
-  description?: string;
-  images?: { url: string }[];
-  debts: Debt[];
-  created_at: string;
-  updated_at: string;
+  description: string;
+  store:  string;
+  phone_numbers: PhoneNumber[];
+  images: { url: string }[];
 }
 
 

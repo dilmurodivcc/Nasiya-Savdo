@@ -4,8 +4,11 @@ import Auth from "../pages/Auth";
 import Home from "../pages/Home";
 import Calendar from "../pages/Calendar";
 import Customers from "../pages/Customers";
+import AddCustomer from "../pages/AddCustomer";
+import CustomerDetail from "../pages/CustomerDetail";
 import Settings from "../pages/Settings";
 import Reports from "../pages/Reports";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -14,6 +17,8 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/customers" element={<Customers />} />
+        <Route path="/customers/add" element={<AddCustomer />} />
+        <Route path="/customers/:id" element={<CustomerDetail />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/reports" element={<Reports />} />
       </Route>

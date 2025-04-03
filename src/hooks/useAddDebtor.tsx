@@ -9,8 +9,6 @@ interface DebtorData {
   store: string;
   phone_numbers: string[];
   images: string[];
-  debt_sum: string;
-  duration: number;
 }
 
 const useAddDebtor = () => {
@@ -19,39 +17,25 @@ const useAddDebtor = () => {
   return useMutation({
     mutationFn: async (data: DebtorData) => {
       try {
-        const formData = new FormData();
-        formData.append("full_name", data.full_name);
-        formData.append("address", data.address || "");
-        formData.append("description", data.description || "");
-        formData.append("store", "default store");
-        data.phone_numbers.forEach((number) => {
-          formData.append("phone_numbers[]", number);
-        });
-        formData.append("debt_sum", data.debt_sum);
-        formData.append("duration", data.duration.toString());
+        console.log("Sending data to API:", data);
 
-        if (data.images && data.images.length > 0) {
-          data.images.forEach((image) => {
-            formData.append("images[]", image);
-          });
-        }
+        const response = await API.post("/debtor", data);
 
-        const response = await API.post("/debtor", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        console.log("API Response:", response.data);
+
         return response.data;
       } catch (error: any) {
+        console.error("Error details:", error.response?.data);
         throw error;
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log("Success response:", data);
       message.success("Qarzdor muvaffaqiyatli qo'shildi");
       queryClient.invalidateQueries({ queryKey: ["customers"] });
     },
     onError: (error: any) => {
-      console.error("Error details:", error.response?.data);
+      console.error("Error response:", error.response?.data);
       message.error(
         error.response?.data?.message || "Qarzdor qo'shishda xatolik yuz berdi"
       );

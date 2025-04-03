@@ -17,12 +17,14 @@
 @import "./layout/header";
 @import "./layout/footer";
 // @import "./layout/navigation";
+@import "./layout/AddCustomer.scss";
 
 // Pages
 @import "./pages/home";
 @import "./pages/auth";
 @import "./pages/calendar";
 @import "./pages/customer";
+@import "./pages/products";
 // @import "./pages/settings";
 // @import "./pages/reports";
 
