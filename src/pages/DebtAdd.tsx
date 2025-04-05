@@ -52,9 +52,9 @@ const DebtAdd = () => {
     <>
       <div className="container">
         <Header />
-        <button className="back-button" onClick={() => navigate(-1)}>
-          <ArrowLeftOutlined />
-        </button>
+        <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(-1)}>
+          Orqaga
+        </Button>
         <div className="debt-add-page">
           <Form
             form={form}

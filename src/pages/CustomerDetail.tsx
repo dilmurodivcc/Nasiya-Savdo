@@ -235,7 +235,12 @@ const CustomerDetail = () => {
                 </button>
               </div>
               {(debts || []).map((debt: Debt, index: number) => (
-                <div key={index} className="debt-item">
+                <div
+                  key={index}
+                  className="debt-item"
+                  onClick={() => navigate(`/customers/${id}/debts/${debt.id}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <div className="debt-header">
                     <div className="debt-date">
                       {new Date(debt.created_at).toLocaleDateString("uz-UZ", {
