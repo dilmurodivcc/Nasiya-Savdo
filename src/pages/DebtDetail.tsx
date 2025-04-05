@@ -88,7 +88,7 @@ const DebtDetail = () => {
       queryClient.invalidateQueries({ queryKey: ["debt", debtId] });
       setIsEditing(false);
     },
-    onError: (error) => {
+    onError: () => {
       message.error("Nasiyani yangilashda xatolik yuz berdi");
     },
   });

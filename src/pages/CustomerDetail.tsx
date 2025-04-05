@@ -1,4 +1,4 @@
-import { data, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Progress, Spin, message } from "antd";
 import {
   ArrowLeftOutlined,
@@ -64,8 +64,7 @@ const ConfirmModal = ({
 const CustomerDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { customer, isLoading, error, deleteCustomer, toggleStar } =
-    useCustomerDetail(id || "");
+  const { deleteCustomer, toggleStar } = useCustomerDetail(id || "");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -113,28 +112,12 @@ const CustomerDetail = () => {
     retry: false,
   });
 
-  const {
-    data: debts,
-    isLoading: isDebtsLoading,
-    error: debtsError,
-  } = useQuery({
+  const { data: debtsResponse } = useQuery({
     queryKey: ["debts", id],
-    queryFn: async () => {
-      try {
-        const response = await API.get(`/debts?debtor_id=${id}`);
-        console.log("API Response:", response);
-        console.log("Debts data:", response.data);
-        if (!response.data) {
-          return [];
-        }
-        return response.data.data || [];
-      } catch (error: any) {
-        console.error("Error fetching debts:", error);
-        return [];
-      }
-    },
-    enabled: !!client,
+    queryFn: () => API.get(`/customers/${id}/debts`),
   });
+
+  const debts = debtsResponse?.data?.data || [];
 
   console.log("Current debts state:", debts);
 
