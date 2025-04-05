@@ -31,8 +31,8 @@ const useHomeData = () => {
   return useQuery({
     queryKey: ["homeData"],
     queryFn: fetchHomeData,
-    retry: 1, // Only retry once if request fails
-    refetchOnWindowFocus: false, // Don't refetch when window regains focus
+    retry: 1,
+    refetchOnWindowFocus: false,
   });
 };
 

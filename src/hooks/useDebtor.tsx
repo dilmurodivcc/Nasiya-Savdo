@@ -6,11 +6,11 @@ interface PhoneNumber {
   number: string;
 }
 
-interface Debt {
-  debt_sum: string; 
-  debt_status: string;
-  total_debt_sum?: string; 
-}
+// interface Debt {
+//   debt_sum: string; 
+//   debt_status: string;
+//   total_debt_sum?: string; 
+// }
 
 interface Debtor {
   id: string;
@@ -31,7 +31,7 @@ const useDebtor = () => {
   useEffect(() => {
     const fetchDebtors = async () => {
       try {
-        const response = await API.get("  ");
+        const response = await API.get("");
 
         console.log("API Response:", response.data);
 

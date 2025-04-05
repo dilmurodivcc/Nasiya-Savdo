@@ -8,7 +8,7 @@ import AddCustomer from "../pages/AddCustomer";
 import CustomerDetail from "../pages/CustomerDetail";
 import Settings from "../pages/Settings";
 import Reports from "../pages/Reports";
-
+import DebtAdd from "../pages/DebtAdd";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -19,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/customers" element={<Customers />} />
         <Route path="/customers/add" element={<AddCustomer />} />
         <Route path="/customers/:id" element={<CustomerDetail />} />
+        <Route path="/customers/:id/debt-add" element={<DebtAdd />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/reports" element={<Reports />} />
       </Route>
