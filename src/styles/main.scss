@@ -1,35 +1,50 @@
 @import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 // Abstracts
-@import "abstracts/variables";
-@import "abstracts/mixins";
-@import "abstracts/functions";
+@use "abstracts/variables" as *;
+@use "abstracts/mixins" as *;
+@use "abstracts/functions" as *;
 
 // Base
-@import "./base/reset";
-@import "./base/typography";
-@import "./base/base";
+@use "base/reset" as *;
+@use "base/typography" as *;
+@use "base/base" as *;
 
 // Components
-@import "./components/forms";
-@import "./components/buttons";
+@use "components/buttons" as *;
+@use "components/forms" as *;
+@use "components/cards" as *;
+@use "components/modals" as *;
+@use "components/tables" as *;
+@use "components/alerts" as *;
+@use "components/badges" as *;
+@use "components/progress" as *;
+@use "components/tabs" as *;
+@use "components/avatars" as *;
+@use "components/dropdowns" as *;
+@use "components/loaders" as *;
 
 // Layout
-@import "./layout/header";
-@import "./layout/footer";
-// @import "./layout/navigation";
-@import "./layout/AddCustomer.scss";
+@use "layout/header" as *;
+@use "layout/footer" as *;
+@use "layout/sidebar" as *;
+@use "layout/grid" as *;
+@use "layout/containers" as *;
 
 // Pages
-@import "./pages/home";
-@import "./pages/auth";
-@import "./pages/calendar";
-@import "./pages/customer";
-@import "./pages/products";
-@import "./pages/DebtAdd";
-@import "./pages/debtDetail";
-// @import "./pages/settings";
-// @import "./pages/reports";
+@use "pages/home" as *;
+@use "pages/auth" as *;
+@use "pages/customers" as *;
+@use "pages/customer-detail" as *;
+@use "pages/debt-add" as *;
+@use "pages/debt-detail" as *;
+@use "pages/calendar" as *;
+@use "pages/settings" as *;
+@use "pages/reports" as *;
 
 // Themes
-// @import "./themes/default";
+@use "themes/default" as *;
 @import "./themes/dark";
+
+// Utilities
+@use "utilities/helpers" as *;
+@use "utilities/animations" as *;
