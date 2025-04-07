@@ -12,36 +12,20 @@
 @use "components/buttons" as *;
 @use "components/forms" as *;
 @use "components/cards" as *;
-@use "components/badges" as *;
-@use "components/progress" as *;
-@use "components/tabs" as *;
-@use "components/avatars" as *;
-@use "components/loaders" as *;
 
 // Layout
 @use "layout/header" as *;
 @use "layout/footer" as *;
-@use "layout/grid" as *;
-@use "layout/containers" as *;
 
 // Pages
 @use "pages/home" as *;
 @use "pages/auth" as *;
-@use "pages/customers" as *;
-@use "pages/customer-detail" as *;
-@use "pages/debt-add" as *;
-@use "pages/debt-detail" as *;
 @use "pages/calendar" as *;
-@use "pages/settings" as *;
-@use "pages/reports" as *;
+@use "pages/customer" as *;
+@use "pages/debtAdd" as *;
+@use "pages/debtDetail" as *;
+@use "pages/products" as *;
 
-// Themes
-@use "themes/default" as *;
-@use "themes/dark" as *;
-
-// Utilities
-@use "utilities/helpers" as *;
-@use "utilities/animations" as *;
 
 // Font imports
 @import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");

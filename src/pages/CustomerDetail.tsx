@@ -114,7 +114,22 @@ const CustomerDetail = () => {
 
   const { data: debtsResponse } = useQuery({
     queryKey: ["debts", id],
-    queryFn: () => API.get(`/customers/${id}/debts`),
+    queryFn: async () => {
+      try {
+        const response = await API.get(`/debts`, {
+          params: {
+            debtor_id: id,
+            skip: 0,
+            take: 100,
+          },
+        });
+        return response;
+      } catch (error) {
+        console.error("Error fetching debts:", error);
+        throw error;
+      }
+    },
+    enabled: !!id,
   });
 
   const debts = debtsResponse?.data?.data || [];
