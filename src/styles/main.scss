@@ -12,20 +12,17 @@
 @use "components/buttons" as *;
 @use "components/forms" as *;
 @use "components/cards" as *;
-@use "components/modals" as *;
 @use "components/tables" as *;
 @use "components/alerts" as *;
 @use "components/badges" as *;
 @use "components/progress" as *;
 @use "components/tabs" as *;
 @use "components/avatars" as *;
-@use "components/dropdowns" as *;
 @use "components/loaders" as *;
 
 // Layout
 @use "layout/header" as *;
 @use "layout/footer" as *;
-@use "layout/sidebar" as *;
 @use "layout/grid" as *;
 @use "layout/containers" as *;
 
