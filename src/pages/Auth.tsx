@@ -12,8 +12,8 @@ const Auth = () => {
   const { loginMutation } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    username: "dilmurodvcc",
+    password: "mohira2009",
   });
   const [error, setError] = useState("");
   const [isError, setIsError] = useState(false);
