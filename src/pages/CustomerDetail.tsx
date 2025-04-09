@@ -1,16 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Progress, Spin, message } from "antd";
+import { Button, Progress, Spin, message, Form, Input, Modal, Tag } from "antd";
 import {
   ArrowLeftOutlined,
   DeleteOutlined,
   PlusOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import useCustomerDetail from "../hooks/useCustomerDetail";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { useState } from "react";
 import "./CustomerDetail.css";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import API from "../API";
 
 interface Debt {
@@ -67,6 +68,42 @@ const CustomerDetail = () => {
   const { deleteCustomer, toggleStar } = useCustomerDetail(id || "");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [form] = Form.useForm();
+
+  const updateCustomer = useMutation({
+    mutationFn: async (values: any) => {
+      return await API.put(`/debtor/${id}`, values);
+    },
+    onSuccess: () => {
+      message.success("Mijoz ma'lumotlari muvaffaqiyatli yangilandi");
+      setIsEditModalOpen(false);
+    },
+    onError: () => {
+      message.error("Mijoz ma'lumotlarini yangilashda xatolik yuz berdi");
+    },
+  });
+
+  const handleEdit = () => {
+    if (client) {
+      form.setFieldsValue({
+        full_name: client.full_name,
+        address: client.address,
+        description: client.description,
+        store: client.store,
+        phone_numbers: client.phone_numbers || [""],
+      });
+      setIsEditModalOpen(true);
+    }
+  };
+
+  const handleEditSubmit = async (values: any) => {
+    try {
+      await updateCustomer.mutateAsync(values);
+    } catch (error) {
+      console.error("Error updating customer:", error);
+    }
+  };
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -189,14 +226,23 @@ const CustomerDetail = () => {
             >
               Orqaga
             </Button>
-            <Button
-              type="primary"
-              danger
-              icon={<DeleteOutlined />}
-              onClick={() => setIsModalOpen(true)}
-            >
-              O'chirish
-            </Button>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <Button
+                type="primary"
+                icon={<EditOutlined />}
+                onClick={handleEdit}
+              >
+                Tahrirlash
+              </Button>
+              <Button
+                type="primary"
+                danger
+                icon={<DeleteOutlined />}
+                onClick={() => setIsModalOpen(true)}
+              >
+                O'chirish
+              </Button>
+            </div>
           </div>
 
           <div className="customer-info">
@@ -280,6 +326,133 @@ const CustomerDetail = () => {
               )}
             </div>
           </div>
+
+          <Modal
+            title="Mijoz ma'lumotlarini tahrirlash"
+            open={isEditModalOpen}
+            onCancel={() => setIsEditModalOpen(false)}
+            footer={null}
+            width={600}
+          >
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleEditSubmit}
+              initialValues={{
+                full_name: client?.full_name || "",
+                address: client?.address || "",
+                description: client?.description || "",
+                store: client?.store || "",
+                phone_numbers: client?.phone_numbers || [""],
+              }}
+            >
+              <Form.Item
+                name="full_name"
+                label="To'liq ism"
+                rules={[{ required: true, message: "To'liq ismni kiriting" }]}
+                extra={`Joriy qiymat: ${client?.full_name}`}
+              >
+                <Input placeholder="Yangi to'liq ismni kiriting" />
+              </Form.Item>
+
+              <Form.Item
+                name="address"
+                label="Manzil"
+                rules={[{ required: true, message: "Manzilni kiriting" }]}
+                extra={`Joriy qiymat: ${client?.address}`}
+              >
+                <Input placeholder="Yangi manzilni kiriting" />
+              </Form.Item>
+
+              <Form.Item
+                name="description"
+                label="Izoh"
+                extra={`Joriy qiymat: ${client?.description || "Izoh yo'q"}`}
+              >
+                <Input.TextArea placeholder="Yangi izohni kiriting" rows={4} />
+              </Form.Item>
+
+              <Form.Item
+                name="store"
+                label="Do'kon"
+                extra={`Joriy qiymat: ${client?.store || "Do'kon nomi yo'q"}`}
+              >
+                <Input placeholder="Yangi do'kon nomini kiriting" />
+              </Form.Item>
+
+              <Form.List
+                name="phone_numbers"
+                initialValue={client?.phone_numbers || [""]}
+              >
+                {(fields, { add, remove }) => (
+                  <>
+                    <div style={{ marginBottom: "8px" }}>
+                      <span>Joriy telefon raqamlar: </span>
+                      {client?.phone_numbers?.map((phone: any, index: any) => (
+                        <Tag key={index} style={{ marginBottom: "4px" }}>
+                          {phone}
+                        </Tag>
+                      ))}
+                    </div>
+                    {fields.map((field, index) => (
+                      <Form.Item
+                        label={index === 0 ? "Yangi telefon raqamlar" : ""}
+                        required={false}
+                        key={field.key}
+                      >
+                        <Form.Item
+                          {...field}
+                          validateTrigger={["onChange", "onBlur"]}
+                          rules={[
+                            {
+                              required: true,
+                              whitespace: true,
+                              message: "Telefon raqamni kiriting",
+                            },
+                            {
+                              pattern: /^\+998\d{9}$/,
+                              message: "Noto'g'ri telefon raqam formati",
+                            },
+                          ]}
+                          noStyle
+                        >
+                          <Input
+                            placeholder="+998901234567"
+                            style={{ width: "90%" }}
+                          />
+                        </Form.Item>
+                        {fields.length > 1 && (
+                          <Button
+                            type="link"
+                            onClick={() => remove(field.name)}
+                            style={{ width: "10%" }}
+                          >
+                            O'chirish
+                          </Button>
+                        )}
+                      </Form.Item>
+                    ))}
+                    <Form.Item>
+                      <Button type="dashed" onClick={() => add()} block>
+                        Telefon raqam qo'shish
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
+
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={updateCustomer.isPending}
+                  block
+                >
+                  Saqlash
+                </Button>
+              </Form.Item>
+            </Form>
+          </Modal>
         </div>
       </div>
       <Footer />

@@ -7,6 +7,7 @@ import Customers from "../pages/Customers";
 import AddCustomer from "../pages/AddCustomer";
 import CustomerDetail from "../pages/CustomerDetail";
 import Settings from "../pages/Settings";
+import PersonalInfo from "../pages/PersonalInfo";
 import Reports from "../pages/Reports";
 import DebtAdd from "../pages/DebtAdd";
 import DebtDetail from "../pages/DebtDetail";
@@ -24,6 +25,7 @@ const AppRoutes = () => {
         <Route path="/customers/:id/debt-add" element={<DebtAdd />} />
         <Route path="/customers/:id/debts/:debtId" element={<DebtDetail />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/settings/personal" element={<PersonalInfo />} />
         <Route path="/reports" element={<Reports />} />
       </Route>
     </Routes>
